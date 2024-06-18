@@ -1,5 +1,6 @@
 "use client";
 
+import Finder from "@/components/common/Finder";
 import Tab from "@/components/list/Tab";
 
 export default function Main() {
@@ -9,6 +10,7 @@ export default function Main() {
         <div>header</div>
       </div>
       <Tab />
+      <Finder />
     </main>
   );
 }
