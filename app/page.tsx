@@ -3,12 +3,18 @@
 import Dropzone from "@/components/common/Dropzone";
 import Finder from "@/components/common/Finder";
 import Tab from "@/components/list/Tab";
+
 import { useDropCardStore } from "@/stores/DropCardStore";
+
+import { useState } from "react";
 
 export default function Main() {
   const { card, addCard, removeCard } = useDropCardStore();
+  const [cardId, setCardId] = useState<number>(0);
+
   const handleClickAddDropCard = (htmlContent: React.ReactNode) => {
-    addCard({ id: 1, content: htmlContent });
+    addCard({ id: cardId, content: htmlContent });
+    setCardId((prev) => prev + 1);
   };
   return (
     <main className="">
