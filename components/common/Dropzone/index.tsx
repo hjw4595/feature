@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import DropCard from "./DropCard";
-import { useDropCardStore } from "@/stores/DropCardStore";
+import { useCardContentStore, useDropCardStore } from "@/stores/DropCardStore";
 
 const Dropzone = () => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const [cardId, setCardId] = useState<number>(0);
 
-  const { card, addCard, removeCard, setCard } = useDropCardStore();
-
-  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
-    setIsDraggingOver(true);
-  };
-
+  const { card, addCard, moveCard } = useDropCardStore();
+  const { newContent, cleanContent } = useCardContentStore();
   const handleDragStart = ({
     e,
     index,
@@ -34,6 +31,14 @@ const Dropzone = () => {
     setIsDraggingOver(false);
   };
 
+  const handleNewContentDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const newCard = { id: cardId, content: newContent };
+    addCard(newCard);
+    cleanContent();
+    setCardId((prev) => prev + 1);
+  };
+
   const handleDrop = ({
     e,
     index,
@@ -44,20 +49,21 @@ const Dropzone = () => {
     const id = e.dataTransfer.getData("draggedItemIndex");
     const indexToString = `${index}`;
     if (id != indexToString) {
-      const newItems = [...card];
-      const [draggedItem] = newItems.splice(+id, 1);
-      newItems.splice(index, 0, draggedItem);
-      setCard(newItems);
+      moveCard(index, +id);
     }
     setIsDraggingOver(false);
   };
+
   console.log(card);
 
   return (
-    <div className={`w-60 h-96 bg-white`}>
+    <div
+      onDragOver={(e) => handleDragOver(e)}
+      onDrop={(e) => handleNewContentDragEnd(e)}
+      className={`w-60 h-96 bg-white ${isDraggingOver ? "is-dragging" : ""}`}
+    >
       {card.map((data, index) => (
         <div
-          className={`${isDraggingOver ? "is-dragging" : ""}`}
           key={data.id}
           onDrop={(e) => handleDrop({ e, index: index })}
           onDragOver={(e) => handleDragOver(e)}
@@ -65,11 +71,7 @@ const Dropzone = () => {
           onDragLeave={(e) => handleDragLeave(e)}
           onDragEnd={(e) => handleDragEnd(e)}
         >
-          <DropCard
-            key={data.id}
-            id={data.id}
-            content={data.content}
-          ></DropCard>
+          <DropCard key={data.id} content={data.content}></DropCard>
         </div>
       ))}
     </div>
