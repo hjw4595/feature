@@ -3,24 +3,20 @@ import { useCardContentStore, useDropCardStore } from "@/stores/DropCardStore";
 const DropCard = ({
   id,
   content,
-  dragStatus,
 }: {
   id?: number;
   content: React.ReactNode;
-  dragStatus?: DataTransfer["effectAllowed"];
 }) => {
-  const { newContent, addContent } = useCardContentStore();
+  const { addContent } = useCardContentStore();
+
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    e.dataTransfer.effectAllowed = `${dragStatus ?? "none"}`;
-    if (id) {
-      e.dataTransfer.setData("draggedItemIndex", `${id}`);
-    }
+    e.dataTransfer.effectAllowed = "copyMove";
     addContent(content);
   };
 
   return (
     <div
-      draggable={true}
+      draggable
       className="bg-slate-100"
       onDragStart={(e) => {
         handleDragStart(e);

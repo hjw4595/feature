@@ -26,7 +26,7 @@ export const useDropCardStore = create<State>((set) => ({
       card: [...state.card, { id: card.id, content: card.content }],
     })),
   deleteCard: (card: Card) =>
-    set((state) => ({ card: state.card.filter(({ id }) => card.id === id) })),
+    set((state) => ({ card: state.card.filter(({ id }) => card.id !== id) })),
   moveCard: (fromIndex: number, toIndex: number) =>
     set((state) => {
       const updatedCards = [...state.card];
