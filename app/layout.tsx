@@ -18,6 +18,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${inter.className}`}>
         <div className="bg-slate-100 h-screen">{children}</div>
+        <div id="popup-root" />
       </body>
     </html>
   );

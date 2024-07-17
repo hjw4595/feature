@@ -1,10 +1,10 @@
 "use client";
 
+import DragList from "@/components/common/DragList";
 import Dropzone from "@/components/common/Dropzone";
 import DropCard from "@/components/common/Dropzone/DropCard";
 import Finder from "@/components/common/Finder";
 import Tab from "@/components/list/Tab";
-import { useCardContentStore } from "@/stores/DropCardStore";
 
 export default function Main() {
   return (
@@ -13,8 +13,9 @@ export default function Main() {
         <div>header</div>
       </div>
       <Tab />
-      <DropCard content={<Finder />} dragStatus="copyMove"></DropCard>
-      <DropCard content={<div>asd</div>} dragStatus="copyMove"></DropCard>
+      <DropCard content={<Finder />} />
+      <DropCard content={<div>asd</div>} />
+      <DragList />
       <Dropzone />
     </main>
   );
