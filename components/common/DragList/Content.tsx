@@ -1,5 +1,6 @@
 import { useCardContentStore, useDropCardStore } from "@/stores/DropCardStore";
 import { useState } from "react";
+import Popup from "../Popup";
 
 interface Props {
   id: number;
@@ -9,6 +10,7 @@ interface Props {
 
 const Content = ({ id, content, isModify }: Props) => {
   const [isDragging, setIsDragging] = useState(false);
+  const [popup, setPopup] = useState(false);
 
   const { deleteCard } = useDropCardStore();
 
@@ -35,13 +37,23 @@ const Content = ({ id, content, isModify }: Props) => {
     deleteCard({ id, content });
   };
 
+  const handleClickContentDelete = () => {
+    setPopup(true);
+  };
+
+  const onClickPopupConfirm = () => {
+    handleDeletContent(id, content);
+    setPopup(false);
+  };
+
+  const onClickPopupClose = () => {
+    setPopup(false);
+  };
+
   return (
     <>
       {isModify ? (
-        <div
-          className="text-red-500"
-          onClick={() => handleDeletContent(id, content)}
-        >
+        <div className="text-red-500" onClick={handleClickContentDelete}>
           -
         </div>
       ) : (
@@ -58,6 +70,11 @@ const Content = ({ id, content, isModify }: Props) => {
           {content}
         </div>
       )}
+      <Popup
+        isOpen={popup}
+        onConfirm={onClickPopupConfirm}
+        onClose={onClickPopupClose}
+      />
     </>
   );
 };

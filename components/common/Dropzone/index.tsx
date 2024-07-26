@@ -32,13 +32,15 @@ const Dropzone = () => {
   };
 
   return (
-    <div
-      onDragOver={(e) => handleDragOver(e)}
-      onDrop={(e) => handleDrop(e)}
-      onDragLeave={handleDragLeave}
-      className={`${isDraggingOver ? "bg-blue-200" : "bg-slate-200"}`}
-    >
-      추가
+    <div className="flex justify-center items-center h-20 border-slate-200 border-4 border-dashed">
+      <div
+        onDragOver={(e) => handleDragOver(e)}
+        onDrop={(e) => handleDrop(e)}
+        onDragLeave={handleDragLeave}
+        className={`flex flex-1 justify-center items-center h-full ${isDraggingOver ? "bg-blue-200" : "bg-white"}`}
+      >
+        drop to add
+      </div>
     </div>
   );
 };

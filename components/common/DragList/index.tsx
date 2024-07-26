@@ -37,6 +37,7 @@ function DragList() {
   const handleClickModify = () => {
     setIsModify((prev) => !prev);
   };
+
   return (
     <div className="bg-white">
       {card.map((data, index) => (
@@ -57,8 +58,9 @@ function DragList() {
           </div>
         </div>
       ))}
-      <div onClick={handleClickModify}>{isModify ? "완료" : " 목록삭제"}</div>
-      <Popup />
+      <div onClick={() => handleClickModify()}>
+        {isModify ? "완료" : "수정"}
+      </div>
     </div>
   );
 }
